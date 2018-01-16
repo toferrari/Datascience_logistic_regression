@@ -7,7 +7,7 @@ def sqrt(nb):
 	ret, x = 0.0, 0.0
 	nb = float(nb)
 
-	for j in 100:
+	for j in range(100):
 		ret = (x + (nb / x)) / 2
 		x = ret
 	return (res)
@@ -28,8 +28,41 @@ def average(nb):
 def std_deviation(nb):
 	if (type(nb) == float):
 		nb = float(nb)
-	ret, average = 0.0, 0.0, average(nb)
+	ret, avge = 0.0, average(nb)
 	lengh = len(nb)
 	for i in range(lengh):
-		ret += square(nb[i] - average)
-	return (sqrt(ret / float(m)))
+		ret += square(nb[i] - avge)
+	return (sqrt(ret / float(lengh)))
+
+def ft_min(nb):
+	ret = nb[0]
+	lengh = len(nb)
+	for i in range(lengh):
+		if (nb[i] < ret):
+			ret = nb[i]
+	return (ret)
+
+def ft_max(nb):
+	ret = nb[0]
+	lengh = len(nb)
+	for i in range(lengh):
+		if (nb[i] > ret):
+			ret = nb[i]
+	return (ret)
+
+def quartile(nb):
+	nb.sort()
+	lengh = len(nb)
+	if (lengh % 4 == 0):
+		div25 = lengh / 4
+	else:
+		div25 = lengh / 4 + 1
+	if (lengh % 2 == 0):
+		div50 = lengh / 2
+	else:
+		div50 = lengh / 2 + 1
+	if (lengh % 0.75 == 0):
+		div75 = lengh / 0.75
+	else:
+		div75 = lengh / 0.75 + 1
+	return (nb[div25 - 1], nb[div50], nb[div75])
