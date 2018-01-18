@@ -51,10 +51,15 @@ def min_all(note):
 def quartile_all(note):
 	div25, div50, div75 = list(), list(), list()
 	for row in note:
-		minn.append(quartile(row))
-		minn.append(quartile(row))
-		minn.append(quartile(row))
-	return(minn)
+		tmp1, tmp2, tmp3 = quartile(row)
+		div25.append(tmp1)
+		div50.append(tmp2)
+		div75.append(tmp3)
+	ret = list()
+	ret.append(div25)
+	ret.append(div50)
+	ret.append(div75)
+	return(ret)
 
 def max_all(note):
 	maxx = list()
@@ -66,7 +71,7 @@ def all_calcul(note):
 	ret_data = list()
 	ret_data.append(count_all(note))
 	ret_data.append(mean_all(note))
-	# ret_data.append(std_all(note))
+	ret_data.append(std_all(note))
 	ret_data.append(min_all(note))
 	ret_data.append(quartile_all(note))
 	ret_data.append(max_all(note))
@@ -77,7 +82,14 @@ def main(train):
 	name_mat = fill_mat(data)
 	note = fill_note(data, len(data[0]))
 	ret_data = all_calcul(note)
-	print ret_data
+	write(name_mat, ret_data)
+	# print name_mat[0]
+	# print ret_data[0]
+	# print ret_data[1]
+	# print ret_data[2]
+	# print ret_data[3]
+	# print ret_data[4]
+	# print ret_data[5]
 
 if __name__ == '__main__':
 	main(sys.argv[1])
