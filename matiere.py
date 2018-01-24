@@ -2,11 +2,12 @@
 
 class Matiere:
 
-	def __init__(self, lst, index):
+	def __init__(self, lst, index, house):
 		self.note = list()
 		for row in lst:
 			try:
-				self.note.append(float(row[index]))
+				if (house == "" or row[1] == house):
+					self.note.append(float(row[index]))
 			except:
 				pass
 

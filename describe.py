@@ -19,7 +19,7 @@ def fill_note(data, lengh):
 	note = list()
 	i = 6
 	while (i < lengh):
-		tmp = Matiere(data, i).get()
+		tmp = Matiere(data, i, "").note
 		note.append(tmp)
 		i += 1
 	return (note)
@@ -77,19 +77,72 @@ def all_calcul(note):
 	ret_data.append(max_all(note))
 	return (ret_data)
 
+def print_nb(nb):
+	for i in range(len(nb)):
+		print(repr(round(nb[i], 2)).rjust(20), end="")
+	print()
+
+def fill_note_house(data):
+	note = list()
+	Hufflepuff, Slytherin, Ravenclaw, Gryffindor = list(), list(), list(), list()
+	for i in range(6, len(data[0])):
+		Hufflepuff.append(Matiere(data, i, "Hufflepuff").note)
+		Slytherin.append(Matiere(data, i, "Slytherin").note)
+		Ravenclaw.append(Matiere(data, i, "Ravenclaw").note)
+		Gryffindor.append(Matiere(data, i, "Gryffindor").note)
+	note.append(Hufflepuff)
+	note.append(Slytherin)
+	note.append(Ravenclaw)
+	note.append(Gryffindor)
+	return (note)
+
+def write_house(ret_house, name_mat, name_house):
+	calcul = ["Count", "Mean", "Std", "Min", ["25%", "50%", "75%"], "Max"]
+	for a in range(4):
+		print("\n{}\n\t\t".format(name_house[a]), end="")
+		for i in range(len(name_mat)):
+			print(name_mat[i][:15].rjust(20), end="")
+		print()
+		for line in range(len(calcul)):
+			if type(calcul[line]) != list:
+				print ("{}\t\t".format(calcul[line]), end="")
+				print_nb(ret_house[a][line])
+			else:
+				for line_l in range(len(calcul[line])):
+					print ("{}\t\t".format(calcul[line][line_l]), end="")
+					print_nb(ret_house[a][line][line_l])
+
+def bonus(name_mat, data):
+	note_house = list()
+	note_house = fill_note_house(data)
+	name_house = ["Hufflepuff", "Slytherin", "Ravenclaw", "Gryffindor"]
+	ret_house = list()
+	for i in range(4):
+		ret_house.append(all_calcul(note_house[i]))
+	write_house(ret_house, name_mat, name_house)
+
+def write(name_mat, ret_data):
+	calcul = ["Count", "Mean", "Std", "Min", ["25%", "50%", "75%"], "Max"]
+	print("\t\t", end="")
+	for i in range(len(name_mat)):
+		print(name_mat[i][:15].rjust(20), end="")
+	print()
+	for line in range(len(calcul)):
+		if type(calcul[line]) != list:
+			print ("{}\t\t".format(calcul[line]), end="")
+			print_nb(ret_data[line])
+		else:
+			for line_l in range(len(calcul[line])):
+				print ("{}\t\t".format(calcul[line][line_l]), end="")
+				print_nb(ret_data[line][line_l])
+
 def main(train):
 	data = Read_csv(train).get()
 	name_mat = fill_mat(data)
 	note = fill_note(data, len(data[0]))
 	ret_data = all_calcul(note)
 	write(name_mat, ret_data)
-	# print name_mat[0]
-	# print ret_data[0]
-	# print ret_data[1]
-	# print ret_data[2]
-	# print ret_data[3]
-	# print ret_data[4]
-	# print ret_data[5]
+	bonus(name_mat, data)
 
 if __name__ == '__main__':
 	main(sys.argv[1])
