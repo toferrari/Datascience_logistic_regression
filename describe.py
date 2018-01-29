@@ -18,10 +18,8 @@ def fill_mat(data):
 def fill_note(data, lengh):
 	note = list()
 	i = 6
-	while (i < lengh):
-		tmp = Matiere(data, i, "").note
-		note.append(tmp)
-		i += 1
+	for i in range(6, lengh):
+		note.append(Matiere(data, i, "").note)
 	return (note)
 
 def count_all(note):
