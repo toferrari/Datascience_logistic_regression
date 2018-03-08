@@ -20,13 +20,7 @@ def check_empty(data):
 					check = False
 	return data
 
-def main(train):
-	data = Read_csv(train).get()
-	data = check_empty(data)
-	name_house = ["Hufflepuff", "Slytherin", "Ravenclaw", "Gryffindor"]
-	note_house, name_mat = list(), list()
-	name_mat = fill_mat(data)
-	note_house = fill_note_house(data)
+def pair_plt(note_house, name_house, name_mat):
 	couleur = ['blue', 'red', 'green', 'yellow']
 	fig = plt.figure(1, figsize=(25, 15))
 	fig.subplots_adjust(bottom=0.05, left=0.05, top =0.99, right=0.99, \
@@ -63,6 +57,15 @@ def main(train):
 			x += 1
 	plt.savefig('Pair_plot.png')
 	# plt.show()
+
+def main(train):
+	data = Read_csv(train).get()
+	data = check_empty(data)
+	name_house = ["Hufflepuff", "Slytherin", "Ravenclaw", "Gryffindor"]
+	note_house, name_mat = list(), list()
+	name_mat = fill_mat(data)
+	note_house = fill_note_house(data)
+	pair_plt(note_house, name_house, name_mat)
 
 if __name__ == '__main__':
 	main(sys.argv[1])
