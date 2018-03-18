@@ -7,6 +7,7 @@ import csv
 import sys
 from read_csv import Read_csv
 from matiere import Matiere
+from Libpy.matrix import *
 
 def check_empty(data, index):
 	check = False
@@ -41,9 +42,14 @@ def get_house(data):
 
 def norme(note):
 	n_norme, diviseur = list(), list()
+	n_norme = note
 	for row in note:
 		del row[0]
 		diviseur.append(max(row))
+	for i, row in enumerate(n_norme):
+		for j, nb in enumerate(row):
+			n_norme[i][j] = n_norme[i][j] / diviseur[i]
+	return (n_norme, diviseur)
 
 def main(train):
 	index = [2, 3, 4, 5, 6, 7, 8, 11, 12]
@@ -52,10 +58,19 @@ def main(train):
 	note, house = list(), list()
 	note = get_feat(get_note(data))
 	house = get_house(data)
-	n_norme = norme(note)
-	print (len(note))
-	print (len(house))
-	print (note[5])
+	note = [[float(y) for y in x] for x in note]
+	note = tranpose(note)
+	n_norme, diviseur = norme(note)
+	i = 0
+	for row in n_norme:
+		for nb in row:
+			# if (nb > 1 or nb < -1):
+			i += 1
+	print(i)
+	# print (len(note))
+	# print (len(house))
+	# print(type(note[1]))
+	# print (sum(note[1])/len(note[1]))
 
 if __name__ == '__main__':
 	main(sys.argv[1])
