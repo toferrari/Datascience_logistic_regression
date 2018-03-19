@@ -8,6 +8,7 @@ import sys
 from read_csv import Read_csv
 from matiere import Matiere
 from Libpy.matrix import *
+from Libpy.maths import *
 
 def check_empty(data, index):
 	check = False
@@ -45,11 +46,18 @@ def norme(note):
 	n_norme = note
 	for row in note:
 		del row[0]
-		diviseur.append(max(row))
+		if (absolute(ft_min(row)) > ft_max(row)):
+			diviseur.append(absolute(ft_min(row)))
+		else:
+			diviseur.append(ft_max(row))
 	for i, row in enumerate(n_norme):
 		for j, nb in enumerate(row):
 			n_norme[i][j] = n_norme[i][j] / diviseur[i]
 	return (n_norme, diviseur)
+
+def train_theta(n_norme, house):
+	theta = 4*[10*[0.0]]
+
 
 def main(train):
 	index = [2, 3, 4, 5, 6, 7, 8, 11, 12]
@@ -61,12 +69,7 @@ def main(train):
 	note = [[float(y) for y in x] for x in note]
 	note = tranpose(note)
 	n_norme, diviseur = norme(note)
-	i = 0
-	for row in n_norme:
-		for nb in row:
-			# if (nb > 1 or nb < -1):
-			i += 1
-	print(i)
+	train_theta(n_norme, house)
 	# print (len(note))
 	# print (len(house))
 	# print(type(note[1]))
