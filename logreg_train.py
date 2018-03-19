@@ -45,7 +45,6 @@ def norme(note):
 	n_norme, diviseur = list(), list()
 	n_norme = note
 	for row in note:
-		del row[0]
 		if (absolute(ft_min(row)) > ft_max(row)):
 			diviseur.append(absolute(ft_min(row)))
 		else:
@@ -57,7 +56,9 @@ def norme(note):
 
 def train_theta(n_norme, house):
 	theta = 4*[10*[0.0]]
-
+	i = 0
+	# while (1 < 1000):
+	# 	for
 
 def main(train):
 	index = [2, 3, 4, 5, 6, 7, 8, 11, 12]
