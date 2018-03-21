@@ -9,6 +9,7 @@ from read_csv import Read_csv
 from matiere import Matiere
 from Libpy.matrix import *
 from Libpy.maths import *
+import numpy as np
 
 def check_empty(data, index):
 	check = False
@@ -54,11 +55,27 @@ def norme(note):
 			n_norme[i][j] = n_norme[i][j] / diviseur[i]
 	return (n_norme, diviseur)
 
+def all_theta(note, theta):
+	name = ["Hufflepuff", "Slytherin", "Ravenclaw", "Gryffindor"]
+	ret = 0.0
+	for i in range(len(note)):
+		ret += note[i]
+	return (0)
+
 def train_theta(n_norme, house):
-	theta = 4*[10*[0.0]]
+	# Je dois prendre toute les notes de leleve pour les notes
+	theta = np.array([0.0]*4*10).reshape(4,10)
+	tmp_theta = np.array([0.0]*4*10).reshape(4,10)
 	i = 0
-	# while (1 < 1000):
-	# 	for
+	m = float(len(n_norme[0]))
+	print(theta)
+	# print(len(n_norme[2]))
+	# while (i < 1000):
+	# 	for x, house_t in enumerate(range(len(theta))):
+	# 		for y, note in enumerate(range(len(n_norme))):
+	# 			o = 8
+	# 			tmp_theta[x][y] = all_theta(n_norme[y], theta[x])
+	# 	i += 1
 
 def main(train):
 	index = [2, 3, 4, 5, 6, 7, 8, 11, 12]
@@ -70,11 +87,8 @@ def main(train):
 	note = [[float(y) for y in x] for x in note]
 	note = tranpose(note)
 	n_norme, diviseur = norme(note)
+	array = np.array(n_norme)
 	train_theta(n_norme, house)
-	# print (len(note))
-	# print (len(house))
-	# print(type(note[1]))
-	# print (sum(note[1])/len(note[1]))
 
 if __name__ == '__main__':
 	main(sys.argv[1])
