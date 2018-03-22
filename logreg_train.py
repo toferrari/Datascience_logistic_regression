@@ -55,27 +55,25 @@ def norme(note):
 			n_norme[i][j] = n_norme[i][j] / diviseur[i]
 	return (n_norme, diviseur)
 
-def all_theta(note, theta):
+def up_theta(note, theta, y):
 	name = ["Hufflepuff", "Slytherin", "Ravenclaw", "Gryffindor"]
 	ret = 0.0
-	for i in range(len(note)):
-		ret += note[i]
-	return (0)
+	print(len(theta))
 
-def train_theta(n_norme, house):
-	# Je dois prendre toute les notes de leleve pour les notes
-	theta = np.array([0.0]*4*10).reshape(4,10)
+	return (0.0)
+
+def train_theta(note, house):
 	tmp_theta = np.array([0.0]*4*10).reshape(4,10)
+	theta = np.array([0.0]*4*10).reshape(4,10)
+	note = np.array(note)
 	i = 0
-	m = float(len(n_norme[0]))
-	print(theta)
-	# print(len(n_norme[2]))
-	# while (i < 1000):
-	# 	for x, house_t in enumerate(range(len(theta))):
-	# 		for y, note in enumerate(range(len(n_norme))):
-	# 			o = 8
-	# 			tmp_theta[x][y] = all_theta(n_norme[y], theta[x])
-	# 	i += 1
+	m = float(len(note[0]))
+	while (i < 1):
+		for i in range(len(theta)):
+			for y in range(len(theta[i])):
+				tmp_theta[i][y] -= up_theta(note, theta[i], y)
+		theta = tmp_theta
+		i += 1
 
 def main(train):
 	index = [2, 3, 4, 5, 6, 7, 8, 11, 12]
@@ -85,7 +83,7 @@ def main(train):
 	note = get_feat(get_note(data))
 	house = get_house(data)
 	note = [[float(y) for y in x] for x in note]
-	note = tranpose(note)
+	# note = tranpose(note)
 	n_norme, diviseur = norme(note)
 	array = np.array(n_norme)
 	train_theta(n_norme, house)
