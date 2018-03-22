@@ -31,10 +31,12 @@ def get_feat(note):
 
 def get_note(data):
 	del data[0]
+	house = list()
 	for row in data:
+		house.append(row[1])
 		row[0] = 1
 		del row[1:6]
-	return data
+	return (data, house)
 
 def get_house(data):
 	house = list()
@@ -55,23 +57,35 @@ def norme(note):
 			n_norme[i][j] = n_norme[i][j] / diviseur[i]
 	return (n_norme, diviseur)
 
-def up_theta(note, theta, y):
+def bool_house(house):
 	name = ["Hufflepuff", "Slytherin", "Ravenclaw", "Gryffindor"]
-	ret = 0.0
-	print(len(theta))
+	house_b = np.array([0.0]*4*len(house)).reshape(4,len(house))
+	for i in range(len(house_b)):
+		for y in range(len(house)):
+			if (house[y] == name[i]):
+				house_b[i][y] = 1.0
+			else :
+				house_b[i][y] = 0.0
+	return(house_b)
 
+def up_theta(note, theta, y, house):
+	ret = 0.0
+	ret_tmp = note * theta
+	print (len(ret_tmp[1]))
+	# ret_tmp +=
 	return (0.0)
 
 def train_theta(note, house):
 	tmp_theta = np.array([0.0]*4*10).reshape(4,10)
 	theta = np.array([0.0]*4*10).reshape(4,10)
 	note = np.array(note)
+	house = bool_house(house)
 	i = 0
 	m = float(len(note[0]))
 	while (i < 1):
 		for i in range(len(theta)):
 			for y in range(len(theta[i])):
-				tmp_theta[i][y] -= up_theta(note, theta[i], y)
+				tmp_theta[i][y] -= up_theta(note, theta[i], y, house[i])
 		theta = tmp_theta
 		i += 1
 
@@ -80,10 +94,9 @@ def main(train):
 	data = Read_csv(train).get()
 	data = check_empty(data, index)
 	note, house = list(), list()
-	note = get_feat(get_note(data))
-	house = get_house(data)
+	note, house = get_note(data)
+	note = get_feat(note)
 	note = [[float(y) for y in x] for x in note]
-	# note = tranpose(note)
 	n_norme, diviseur = norme(note)
 	array = np.array(n_norme)
 	train_theta(n_norme, house)
