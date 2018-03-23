@@ -10,6 +10,7 @@ from matiere import Matiere
 from Libpy.matrix import *
 from Libpy.maths import *
 import numpy as np
+from math import *
 
 def check_empty(data, index):
 	check = False
@@ -68,26 +69,54 @@ def bool_house(house):
 				house_b[i][y] = 0.0
 	return(house_b)
 
+def sigmo(x):
+	return (1/(1+np.exp(-x)))
+
 def up_theta(note, theta, y, house):
 	ret = 0.0
-	ret_tmp = note * theta
-	print (len(ret_tmp[1]))
-	# ret_tmp +=
-	return (0.0)
+	ret = sum((sigmo(note.dot(theta.T)) - house) * (note.T)[y]) / float(len(note))
+	return (ret)
 
-def train_theta(note, house):
+def cost(note, theta, house):
+	ret = 0.0
+	sig = sigmo(note.dot(theta.T))
+	ret = -sum((house * np.log(sig)) + ((1.0 - house) * np.log(1.0 - sig))) / float(len(note))
+	return (ret)
+
+def train_theta(note, house, diviseur):
 	tmp_theta = np.array([0.0]*4*10).reshape(4,10)
-	theta = np.array([0.0]*4*10).reshape(4,10)
+	theta = np.array([1.0]*4*10).reshape(4,10)
 	note = np.array(note)
 	house = bool_house(house)
-	i = 0
+	t = np.array([0]*4)
 	m = float(len(note[0]))
-	while (i < 1):
-		for i in range(len(theta)):
-			for y in range(len(theta[i])):
-				tmp_theta[i][y] -= up_theta(note, theta[i], y, house[i])
-		theta = tmp_theta
-		i += 1
+	tmp_cost = np.array([0]*4)
+	theta_cost = np.array([0.0]*4)
+	# while (sum(t) != 4):
+	# 	theta_cost = [cost(note, theta[i], house[i]) for i in range(len(theta_cost))]
+	# 	for i in range(len(theta)):
+	# 		for y in range(len(theta[i])):
+	# 			# print (theta_cost)
+	# 			if (round(theta_cost[i],3) < 0.300):
+	# 				t[i] = 1
+	# 			else:
+	# 				tmp_theta[i][y] -= up_theta(note, theta[i], y, house[i])
+	# 	theta = tmp_theta
+		# print(sum(t))
+		# theta_cost = mp_cost
+		# t += 1
+	print(len(diviseur))
+	# theta = theta * diviseur
+	print (theta[0])
+	print (note[0] * theta[0])
+	# test = cost(note, theta[0], house[0])
+	# print (test)
+	# tmp = list()
+	# print (note[1])
+	# for i in range(len(theta)):
+	# 	print (theta[i])
+	# 	tmp.append(sum(theta[i] * note[1]))
+	# print (tmp)
 
 def main(train):
 	index = [2, 3, 4, 5, 6, 7, 8, 11, 12]
@@ -99,7 +128,7 @@ def main(train):
 	note = [[float(y) for y in x] for x in note]
 	n_norme, diviseur = norme(note)
 	array = np.array(n_norme)
-	train_theta(n_norme, house)
+	train_theta(n_norme, house, diviseur)
 
 if __name__ == '__main__':
 	main(sys.argv[1])
