@@ -48,14 +48,16 @@ def get_house(data):
 def norme(note):
 	n_norme, diviseur = list(), list()
 	n_norme = note
-	for row in note:
+	tmp_note = np.array(n_norme).T
+	print(len(tmp_note))
+	for row in tmp_note:
 		if (absolute(ft_min(row)) > ft_max(row)):
 			diviseur.append(absolute(ft_min(row)))
 		else:
 			diviseur.append(ft_max(row))
 	for i, row in enumerate(n_norme):
 		for j, nb in enumerate(row):
-			n_norme[i][j] = n_norme[i][j] / diviseur[i]
+			n_norme[i][j] = n_norme[i][j] / diviseur[j]
 	return (n_norme, diviseur)
 
 def bool_house(house):
@@ -85,30 +87,39 @@ def cost(note, theta, house):
 
 def train_theta(note, house, diviseur):
 	tmp_theta = np.array([0.0]*4*10).reshape(4,10)
-	theta = np.array([1.0]*4*10).reshape(4,10)
+	theta = np.array([0.0]*4*10).reshape(4,10)
 	note = np.array(note)
 	house = bool_house(house)
 	t = np.array([0]*4)
 	m = float(len(note[0]))
 	tmp_cost = np.array([0]*4)
 	theta_cost = np.array([0.0]*4)
-	# while (sum(t) != 4):
-	# 	theta_cost = [cost(note, theta[i], house[i]) for i in range(len(theta_cost))]
-	# 	for i in range(len(theta)):
-	# 		for y in range(len(theta[i])):
-	# 			# print (theta_cost)
-	# 			if (round(theta_cost[i],3) < 0.300):
-	# 				t[i] = 1
-	# 			else:
-	# 				tmp_theta[i][y] -= up_theta(note, theta[i], y, house[i])
-	# 	theta = tmp_theta
-		# print(sum(t))
-		# theta_cost = mp_cost
-		# t += 1
-	print(len(diviseur))
+	print (note[0])
+	while (sum(t) != 4):
+		theta_cost = [cost(note, theta[i], house[i]) for i in range(len(theta_cost))]
+		for i in range(len(theta)):
+			for y in range(len(theta[i])):
+				# print (theta_cost)
+				if (round(theta_cost[i],3) < 0.07):
+					t[i] = 1
+				else:
+					tmp_theta[i][y] -= up_theta(note, theta[i], y, house[i])
+		theta = tmp_theta
+		# print(theta_cost)
+
+	# print(len(diviseur))
 	# theta = theta * diviseur
 	print (theta[0])
-	print (note[0] * theta[0])
+	note = note * diviseur
+	b = sigmo(sum(note[0] * (theta[0].T)))
+	print (len(note[0]))
+	print (len(theta[0]))
+	print (b)
+	# for a in range(10):
+	# 	print("\n")
+	# 	for i in range(4):
+	# 		sig = sigmo(note[a].dot(theta[i]))
+	# 		print (sig)
 	# test = cost(note, theta[0], house[0])
 	# print (test)
 	# tmp = list()
