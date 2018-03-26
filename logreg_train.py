@@ -21,7 +21,7 @@ def check_empty(data, index):
 				if (((j - 6) in index) == True and row[j] == ""):
 					del data[i]
 					check = False
-	return data
+	return (data)
 
 def get_feat(note):
 	index = [1, 2, 10, 11]
@@ -43,7 +43,7 @@ def get_house(data):
 	house = list()
 	for row in data:
 		house.append(row[1])
-	return house
+	return (house)
 
 def norme(note):
 	n_norme, diviseur = list(), list()
@@ -76,13 +76,15 @@ def sigmo(x):
 def up_theta(note, theta, y, house):
 	ret = 0.0
 	tmp_note = note.T
-	ret = (sum((sigmo(note.dot(theta.T)) - house) * tmp_note[y].T)) / float(len(note))
+	ret = (sum((sigmo(note.dot(theta.T)) - house) * tmp_note[y].T)) / \
+																float(len(note))
 	return (ret)
 
 def cost(note, theta, house):
 	ret = 0.0
 	sig = sigmo(note.dot(theta.T))
-	ret = -sum((house * np.log(sig)) + ((1.0 - house) * np.log(1.0 - sig))) / float(len(note))
+	ret = -sum((house * np.log(sig)) + ((1.0 - house) * np.log(1.0 - sig))) / \
+																float(len(note))
 	return (ret)
 
 def train_theta(note, house, diviseur):
@@ -95,7 +97,8 @@ def train_theta(note, house, diviseur):
 	tmp_cost = np.array([0]*4)
 	theta_cost = np.array([0.0]*4)
 	while (sum(t) != 4):
-		theta_cost = [cost(note, theta[i], house[i]) for i in range(len(theta_cost))]
+		theta_cost = \
+				[cost(note, theta[i], house[i]) for i in range(len(theta_cost))]
 		for i in range(len(theta)):
 			for y in range(len(theta[i])):
 				if (round(theta_cost[i],3) < 0.1):
@@ -140,7 +143,6 @@ def main(train):
 	note_test = np.array(n_norme[tmp:])
 	house_train = np.array(house[:tmp])
 	house_test = np.array(house[tmp:])
-	print(note_train)
 	theta = train_theta(note_train, house_train, diviseur)
 	test_theta(note_test, house_test, theta)
 	save_theta(theta)
