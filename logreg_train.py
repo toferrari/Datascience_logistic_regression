@@ -49,7 +49,6 @@ def norme(note):
 	n_norme, diviseur = list(), list()
 	n_norme = note
 	tmp_note = np.array(n_norme).T
-	print(len(tmp_note))
 	for row in tmp_note:
 		if (absolute(ft_min(row)) > ft_max(row)):
 			diviseur.append(absolute(ft_min(row)))
@@ -99,11 +98,33 @@ def train_theta(note, house, diviseur):
 		theta_cost = [cost(note, theta[i], house[i]) for i in range(len(theta_cost))]
 		for i in range(len(theta)):
 			for y in range(len(theta[i])):
-				if (round(theta_cost[i],3) < 0.07):
+				if (round(theta_cost[i],3) < 0.1):
 					t[i] = 1
 				else:
 					tmp_theta[i][y] -= up_theta(note, theta[i], y, house[i])
 		theta = tmp_theta
+	return (theta)
+
+def test_theta(note, house, theta):
+	ret = np.array([0.0]*4)
+	name = ["Hufflepuff", "Slytherin", "Ravenclaw", "Gryffindor"]
+	i = 0
+	for i in range(len(note)):
+		for k in range(len(theta)):
+			ret[k] = sigmo(sum(note[i] * theta[k]))
+		## compteur pour avoir le pourcentage
+		# if (name[np.argmax(ret)] == house[i]):
+		# 	i += 1
+
+def save_theta(theta):
+	fthetha = open("theta.csv", "w")
+	for i in range(len(theta)):
+		for k in range(len(theta[i])):
+			fthetha.write(str(theta[i][k]))
+			if (k + 1 < len(theta[i])):
+				fthetha.write(",")
+		fthetha.write("\n")
+	fthetha.close()
 
 def main(train):
 	index = [2, 3, 4, 5, 6, 7, 8, 11, 12]
@@ -119,8 +140,10 @@ def main(train):
 	note_test = np.array(n_norme[tmp:])
 	house_train = np.array(house[:tmp])
 	house_test = np.array(house[tmp:])
-	train_theta(note_train, house_train, diviseur)
-	test_theta(note_test, house_test)
+	print(note_train)
+	theta = train_theta(note_train, house_train, diviseur)
+	test_theta(note_test, house_test, theta)
+	save_theta(theta)
 
 if __name__ == '__main__':
 	main(sys.argv[1])
