@@ -76,7 +76,8 @@ def sigmo(x):
 
 def up_theta(note, theta, y, house):
 	ret = 0.0
-	ret = sum((sigmo(note.dot(theta.T)) - house) * (note.T)[y]) / float(len(note))
+	tmp_note = note.T
+	ret = (sum((sigmo(note.dot(theta.T)) - house) * tmp_note[y].T)) / float(len(note))
 	return (ret)
 
 def cost(note, theta, house):
@@ -94,40 +95,15 @@ def train_theta(note, house, diviseur):
 	m = float(len(note[0]))
 	tmp_cost = np.array([0]*4)
 	theta_cost = np.array([0.0]*4)
-	print (note[0])
 	while (sum(t) != 4):
 		theta_cost = [cost(note, theta[i], house[i]) for i in range(len(theta_cost))]
 		for i in range(len(theta)):
 			for y in range(len(theta[i])):
-				# print (theta_cost)
 				if (round(theta_cost[i],3) < 0.07):
 					t[i] = 1
 				else:
 					tmp_theta[i][y] -= up_theta(note, theta[i], y, house[i])
 		theta = tmp_theta
-		# print(theta_cost)
-
-	# print(len(diviseur))
-	# theta = theta * diviseur
-	print (theta[0])
-	note = note * diviseur
-	b = sigmo(sum(note[0] * (theta[0].T)))
-	print (len(note[0]))
-	print (len(theta[0]))
-	print (b)
-	# for a in range(10):
-	# 	print("\n")
-	# 	for i in range(4):
-	# 		sig = sigmo(note[a].dot(theta[i]))
-	# 		print (sig)
-	# test = cost(note, theta[0], house[0])
-	# print (test)
-	# tmp = list()
-	# print (note[1])
-	# for i in range(len(theta)):
-	# 	print (theta[i])
-	# 	tmp.append(sum(theta[i] * note[1]))
-	# print (tmp)
 
 def main(train):
 	index = [2, 3, 4, 5, 6, 7, 8, 11, 12]
@@ -138,8 +114,13 @@ def main(train):
 	note = get_feat(note)
 	note = [[float(y) for y in x] for x in note]
 	n_norme, diviseur = norme(note)
-	array = np.array(n_norme)
-	train_theta(n_norme, house, diviseur)
+	tmp = int(len(n_norme) * 0.7)
+	note_train = np.array(n_norme[:tmp])
+	note_test = np.array(n_norme[tmp:])
+	house_train = np.array(house[:tmp])
+	house_test = np.array(house[tmp:])
+	train_theta(note_train, house_train, diviseur)
+	test_theta(note_test, house_test)
 
 if __name__ == '__main__':
 	main(sys.argv[1])
