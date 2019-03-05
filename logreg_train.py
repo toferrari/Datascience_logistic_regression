@@ -1,4 +1,4 @@
-#!/usr/bin/python3.4
+#!/usr/bin/env python3
 
 from describe import fill_note_house, fill_mat
 import matplotlib.pyplot as plt
@@ -115,9 +115,11 @@ def test_theta(note, house, theta):
 	for i in range(len(note)):
 		for k in range(len(theta)):
 			ret[k] = sigmo(sum(note[i] * theta[k]))
-		## compteur pour avoir le pourcentage
+		# print (ret)
+		# compteur pour avoir le pourcentage
 		# if (name[np.argmax(ret)] == house[i]):
-		# 	i += 1
+		# 	print ("predict = ", name[np.argmax(ret)], ", house = ", house[i])
+
 
 def save_theta(theta):
 	fthetha = open("theta.csv", "w")
@@ -146,6 +148,10 @@ def main(train):
 	theta = train_theta(note_train, house_train, diviseur)
 	test_theta(note_test, house_test, theta)
 	save_theta(theta)
+	print ("Train successfully")
 
 if __name__ == '__main__':
-	main(sys.argv[1])
+	try:
+		main(sys.argv[1])
+	except:
+		print("error")

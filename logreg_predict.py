@@ -1,4 +1,4 @@
-#!/usr/bin/python3.4
+#!/usr/bin/env python3
 
 import sys
 import numpy as np
@@ -47,10 +47,10 @@ def sigmo(x):
 
 def write_ret(index, house):
 	if (index == 0):
-		fthetha = open("house.csv", "w")
+		fthetha = open("houses.csv", "w")
 		fthetha.write("Index,Hogwarts House\n")
 	else :
-		fthetha = open("house.csv", "a")
+		fthetha = open("houses.csv", "a")
 	fthetha.write(str(index) + "," + str(house) + "\n")
 	fthetha.close()
 
@@ -79,4 +79,7 @@ def main(note_csv, theta_csv):
 	test_theta(note, theta)
 
 if __name__ == '__main__':
-	main(sys.argv[1], sys.argv[2])
+	try:
+		main(sys.argv[1], sys.argv[2])
+	except:
+		print("error")

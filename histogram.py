@@ -1,4 +1,4 @@
-#!/usr/bin/python3.4
+#!/usr/bin/env python3
 
 from describe import fill_note_house, fill_mat
 import matplotlib.pyplot as plt
@@ -15,7 +15,7 @@ def histo(note_house, name_mat, name_house):
 		for j in range(len(note_house)):
 			plt.hist(note_house[j][i], alpha=0.4, label=name_house[j])
 			plt.legend(loc = 'upper left')
-	plt.savefig('Histograme.png')
+	plt.savefig('png/Histograme.png')
 
 def main(train):
 	data = Read_csv(train).get()
@@ -26,4 +26,7 @@ def main(train):
 	histo(note_house, name_mat, name_house)
 
 if __name__ == '__main__':
-	main(sys.argv[1])
+	try:
+		main(sys.argv[1])
+	except:
+		print("error")

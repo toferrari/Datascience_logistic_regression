@@ -1,4 +1,4 @@
-#!/usr/bin/python3.4
+#!/usr/bin/env python3
 
 from matiere import Matiere
 from read_csv import Read_csv
@@ -143,4 +143,7 @@ def main(train):
 	bonus(name_mat, data)
 
 if __name__ == '__main__':
-	main(sys.argv[1])
+	try:
+		main(sys.argv[1])
+	except:
+		print("error")

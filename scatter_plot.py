@@ -1,4 +1,4 @@
-#!/usr/bin/python3.4
+#!/usr/bin/env python3
 
 from describe import fill_note_house, fill_mat
 import matplotlib.pyplot as plt
@@ -29,7 +29,7 @@ def scatter_plt(note_house, name_house, name_mat):
 	for i in range(4):
 		plt.scatter(note_house[i][y], note_house[i][x],s=1,\
 		c=couleur[i], alpha=0.7)
-	plt.savefig('Scatter_plot.png')
+	plt.savefig('png/Scatter_plot.png')
 
 def main(train):
 	data = Read_csv(train).get()
@@ -41,4 +41,7 @@ def main(train):
 	scatter_plt(note_house, name_house, name_mat)
 
 if __name__ == '__main__':
-	main(sys.argv[1])
+	try:
+		main(sys.argv[1])
+	except:
+		print("error")

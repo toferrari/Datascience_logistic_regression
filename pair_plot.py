@@ -1,4 +1,4 @@
-#!/usr/bin/python3.4
+#!/usr/bin/env python3
 
 from describe import fill_note_house, fill_mat
 import matplotlib.pyplot as plt
@@ -55,7 +55,7 @@ def pair_plt(note_house, name_house, name_mat):
 						c=couleur[i], alpha=0.7)
 			graph += 1
 			x += 1
-	plt.savefig('Pair_plot.png')
+	plt.savefig('png/Pair_plot.png')
 	# plt.show()
 
 def main(train):
@@ -68,4 +68,7 @@ def main(train):
 	pair_plt(note_house, name_house, name_mat)
 
 if __name__ == '__main__':
-	main(sys.argv[1])
+	try:
+		main(sys.argv[1])
+	except:
+		print("error")
